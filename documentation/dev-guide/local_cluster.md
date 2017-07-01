@@ -1,25 +1,25 @@
 # 搭建本地集群
 
-> 注： 内容翻译自 [Setting up local clusters](https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/local_cluster.md)
+> 注： 内容翻译自 [Setup a local cluster](https://github.com/coreos/etcd/blob/master/Documentation/dev-guide/local_cluster.md)
 
-对于测试和开发部署，最快最简单的方式是搭建本地集群。对于产品部署，参考 [集群]() 章节。
+对于测试和开发部署，最快最简单的方式是搭建本地集群。对于产品部署，参考 [集群](../op-guide/clustering.md) 章节。
 
-## 本地单独集群
+## 本地独立集群
 
-> 注： `单独集群` 指只有一台服务器的集群。
+> 注： `独立集群` 指只有一台服务器的集群。
 
-部署etcd集群作为单独集群是直截了当的。仅用一个命令启动它：
+部署 etcd 集群作为独立集群是直截了当的。仅用一个命令就可以启动它：
 
-```
+```bash
 $ ./etcd
 ...
 ```
 
-启动的etcd成员在 `localhost:2379` 监听客户端请求。
+启动的 etcd 成员在 `localhost:2379` 监听客户端请求。
 
 通过使用 etcdctl 来和已经启动的集群交互：
 
-```
+```bash
 # 使用 API 版本 3
 $ export ETCDCTL_API=3
 
@@ -34,17 +34,18 @@ bar
 
 > 注： `多成员集群` 指有多台台服务器的集群。
 
-提供 Procfile 用于简化搭建本地多成员集群。通过少量命令来启动多成员集群：
+提供 Procfile 用于简化搭建本地多成员集群。通过少量命令就可以启动多成员集群：
 
-```
-# install goreman program to control Profile-based applications.
+```bash
+# 安装 goreman 程序来控制基于 Profile 的应用程序.
 $ go get github.com/mattn/goreman
 $ goreman -f Procfile start
 ...
 ```
 
-> 注1： 必须先安装 go，请见章节 [Go语言安装](https://skyao.gitbooks.io/leaning-go/content/installation/)
-> 注2： 这里所说的 Procfile 文件是来自 [etcd 的 gitub 项目的根目录下的Procfile文件](https://github.com/coreos/etcd/blob/master/Procfile)，但是需要修改一下，将里面的 `bin/etcd` 修改为 `etcd`
+> 注1： 必须先安装 go，请见章节 [Go语言安装](https://skyao.gitbooks.io/learning-go/content/installation/)
+>
+> 注2： 这里所说的 Procfile 文件是来自 [etcd 的 gitub 项目的根目录下的 Procfile 文件](https://github.com/coreos/etcd/blob/master/Procfile)，但是需要修改一下，将里面的 `bin/etcd` 修改为 `etcd`
 
 启动的成员各自在 `localhost:12379`, `localhost:22379`, 和 `localhost:32379` 上监听客户端请求。
 
@@ -69,7 +70,7 @@ $ etcdctl --endpoints=localhost:12379 put foo bar
 OK
 ```
 
-为了体验etcd的容错性，杀掉一个成员：
+为了体验 etcd 的容错性，杀掉一个成员：
 
 ```bash
 # 杀掉 etcd2
@@ -98,6 +99,6 @@ $ etcdctl --endpoints=localhost:22379 get key
 hello
 ```
 
-要学习更多和etcd的交互，请阅读 [和etcd交互](interacting_v3.md)
+了解更多和 etcd 的交互，请阅读 [和 etcd 交互](interacting_v3.md)
 
 

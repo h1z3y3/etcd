@@ -1,24 +1,26 @@
-官方文档
-======
+# 官方文档
 
-> 注：内容翻译自 https://github.com/coreos/etcd/blob/master/Documentation/docs.md
+> 注：内容翻译自 https://github.com/coreos/etcd/blob/master/Documentation
 
-etcd 是一个分布式键值对存储，设计用来可靠而快速的保存关键数据并提供访问。通过分布式锁，leader选举和写屏障(write barriers)来开启可靠的分布式协同。etcd集群是为高可用，持久性数据存储和检索而准备。
+etcd 是一个分布式键值对存储，设计用来可靠而快速的保存关键数据并提供访问。通过分布式锁，leader选举和写屏障(write barriers)来实现可靠的分布式协作。etcd集群是为高可用，持久性数据存储和检索而准备。
 
 ## 开始
 
-现在etcd的用户和开发者可以从 [下载并构建](https://github.com/coreos/etcd/blob/master/Documentation/dl_build.md) etcd开始。在获取etcd之后，跟随 [quick demo](https://github.com/coreos/etcd/blob/master/Documentation/demo.md) 来看构建和操作etcd集群的基本内容。
+现在 etcd 的用户和开发者可以从 [下载并构建](https://github.com/coreos/etcd/blob/master/Documentation/dl_build.md) etcd开始。在获取etcd之后，参照 [quick demo](https://github.com/coreos/etcd/blob/master/Documentation/demo.md) 来感受构建和操作etcd集群的基本方式。
 
-## 使用etcd开发
+## 使用 etcd 开发
 
-开始使用etcd作为分布式键值对存储的最简单的方式是 [搭建本地集群](dev-guide/local_cluster.md)
+开始使用 etcd 作为分布式键值存储的最简单的方式是 [搭建本地集群](dev-guide/local_cluster.md)
 
 - [搭建本地集群](dev-guide/local_cluster.md)
-- [和etcd交互](dev-guide/interacting_v3.md)
-- [API 参考文档](dev-guide/api_reference_v3.md)
-- [gRPC 网关](dev-guide/api_grpc_gateway.md)
-- [内嵌的etcd](dev-guide/embed_etcd.md)
-- [试验性的API和特性](dev-guide/experimental_apis.md)
+- [和 etcd 交互](dev-guide/interacting_v3.md)
+- gRPC [etcd core](dev-guide/api_reference_v3.md) 和 [etcd concurrency](dev-guide/api_concurrency_reference_v3.md) API 参考文档
+- [经由 gRPC 网关的HTTP JSON API](dev-guide/api_grpc_gateway.md)
+- [gRPC 命名和发现](dev-guide/grpc_naming.md)
+- [客户端](clientv3/namespace) 和 [代理](op-guide/grpc_proxy.md#namespacing) 命名空间
+- [内嵌的etcd](https://godoc.org/github.com/coreos/etcd/embed)
+- [试验性的特性和 API](dev-guide/experimental_apis.md)
+- [系统限制](dev-guide/dev-guide/limit.md)
 
 ## 操作 etcd 集群
 
@@ -48,9 +50,6 @@ etcd 是一个分布式键值对存储，设计用来可靠而快速的保存关
 - [API保证](leaning/api_guarantees.md)
 - Internals (TODO)
 
-## 升级和兼容性
+## FAQ
 
-- [Migrate applications from using API v2 to API v3](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/v2-migration.md)
-- [Updating v2.3 to v3.0](https://github.com/coreos/etcd/blob/master/Documentation/upgrades/upgrade_3_0.md)
-
-> 注： 因为是直接从etcd3开始，所以这两节关于升级的内容不关心，就不翻译了 :)
+回答关于 etcd 的[常见问题](faq.md)

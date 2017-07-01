@@ -7,7 +7,7 @@
   "generator": "site",
   "links" : {
     "sidebar" : {
-        "doczh.cn": "https://doczh.cn"
+        "doczh.cn": "http://doczh.cn"
     }
   },
   "structure" : {
