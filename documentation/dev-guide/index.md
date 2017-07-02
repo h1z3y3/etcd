@@ -10,7 +10,6 @@ etcd 开发指南的内容如下：
 - [API 并发参考文档](api_concurrency_reference_v3.md)
 - [gRPC 网关](api_grpc_gateway.md)
 - [gRPC 命名和发现](grpc_naming.md)
-- [内嵌的 etcd](https://godoc.org/github.com/coreos/etcd/embed)
 - [试验性的 API 和特性](experimental_apis.md)
 - [系统限制](limit.md)
 
