@@ -79,13 +79,13 @@ curl -L http://localhost:2379/v3alpha/auth/enable -X POST -d '{}'
 使用 `v3alpha/auth/authenticate` 为认证 token 做认证:
 
 ```bash
-# get the auth token for the root user
+# 为 root 用户 获取认证 token
 curl -L http://localhost:2379/v3alpha/auth/authenticate \
 	-X POST -d '{"name": "root", "password": "pass"}'
 # {"header":{"cluster_id":"14841639068965178418","member_id":"10276657743932975437","revision":"1","raft_term":"2"},"token":"sssvIpwfnLAcWAQH.9"}
 ```
 
-Set the `Authorization` header to the authentication token to fetch a key using authentication credentials:
+为认证 token 设置 `Authorization` header，以便在获取键时使用认证证书:
 
 ```bash
 curl -L http://localhost:2379/v3alpha/kv/put \
@@ -93,7 +93,6 @@ curl -L http://localhost:2379/v3alpha/kv/put \
 	-X POST -d '{"key": "Zm9v", "value": "YmFy"}'
 # {"header":{"cluster_id":"14841639068965178418","member_id":"10276657743932975437","revision":"2","raft_term":"2"}}
 ```
-
 
 ## Swagger
 
