@@ -4,5 +4,4 @@ etcd 项目的大部分是稳定的，但是我们依然在快速前行！我们
 
 ## 当前试验性的 API/特性是:
 
-- [gateway](../op-guide/gateway.md): beta, 预期在3.2版本中稳定
-- [gRPC proxy](../op-guide/grpc_proxy.md): alpha, 预期在3.2版本中稳定
+(暂无)

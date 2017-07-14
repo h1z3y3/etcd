@@ -1,12 +1,10 @@
 # gRPC 命名与发现
 
-etcd provides a gRPC resolver to support an alternative name system that fetches endpoints from etcd for discovering gRPC services. The underlying mechanism is based on watching updates to keys prefixed with the service name.
+etcd 提供了一个 gRPC 解析器来支持替代名称系统，从 etcd 获取端点以发现 gRPC 服务。底层的机制是基于观察带有服务名称前缀的键的更新。
 
-etcd 提供了一个 gRPC 解析器来支持替代名称系统，从 etcd 获取端点以发现 gRPC服务的。 底层的机制是基于观察带有服务名称前缀的键的更新。
+## 用 go-grpc 使用etcd发现
 
-## Using etcd discovery with go-grpc
-
-The etcd client provides a gRPC resolver for resolving gRPC endpoints with an etcd backend. The resolver is initialized with an etcd client and given a target for resolution:
+etcd 客户端提供了一个 gRPC 解析器，用于使用 etcd 后端解析 gRPC 端点。解析器使用 etcd 客户端初始化并给出解析解析的目标：
 
 ```go
 import (
@@ -24,43 +22,43 @@ b := grpc.RoundRobin(r)
 conn, gerr := grpc.Dial("my-service", grpc.WithBalancer(b))
 ```
 
-## Managing service endpoints
+## 管理服务端点
 
-The etcd resolver treats all keys under the prefix of the resolution target following a "/" (e.g., "my-service/") with JSON-encoded go-grpc `naming.Update` values as potential service endpoints. Endpoints are added to the service by creating new keys and removed from the service by deleting keys.
+etcd 解析器将解析目标加"/"(如"my-service/")的前缀下，并带有 json编码 go-grpc `naming.Update` 值的所有键作为潜在的服务端点对待。通过创建新的键将端点添加到服务中，并通过删除键从服务中删除他们。
 
-### Adding an endpoint
+### 添加端点
 
-New endpoints can be added to the service through `etcdctl`:
+新的端点可以通过 `etcdctl` 添加到服务中：
 
-```sh
+```bash
 ETCDCTL_API=3 etcdctl put my-service/1.2.3.4 '{"Addr":"1.2.3.4","Metadata":"..."}'
 ```
 
-The etcd client's `GRPCResolver.Update` method can also register new endpoints with a key matching the `Addr`:
+etcd 客户端的 `GRPCResolver.Update` 方法可以同样用匹配 'Addr' 的键注册新的端点：
 
 ```go
 r.Update(context.TODO(), "my-service", naming.Update{Op: naming.Add, Addr: "1.2.3.4", Metadata: "..."})
 ```
 
-### Deleting an endpoint
+### 删除端点
 
-Hosts can be deleted from the service through `etcdctl`:
+通过 `etcdctl` 可以从服务中删除主机：
 
 ```sh
 ETCDCTL_API=3 etcdctl del my-service/1.2.3.4
 ```
 
-The etcd client's `GRPCResolver.Update` method also supports deleting endpoints:
+etcd 客户端的 `GRPCResolver.Update` 方法可以同样支持删除端点：
 
 ```go
 r.Update(context.TODO(), "my-service", naming.Update{Op: naming.Delete, Addr: "1.2.3.4"})
 ```
 
-### Registering an endpoint with a lease
+### 带租约注册端点
 
-Registering an endpoint with a lease ensures that if the host can't maintain a keepalive heartbeat (e.g., its machine fails), it will be removed from the service:
+带租约注册端点确保如果主机不能维持 keepalive 心跳（例如，它的机器宕机了），它将从服务中删除：
 
-```sh
+```bash
 lease=`ETCDCTL_API=3 etcdctl lease grant 5 | cut -f2 -d' '`
 ETCDCTL_API=3 etcdctl put --lease=$lease my-service/1.2.3.4 '{"Addr":"1.2.3.4","Metadata":"..."}'
 ETCDCTL_API=3 etcdctl lease keep-alive $lease
