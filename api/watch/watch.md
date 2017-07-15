@@ -1,13 +1,20 @@
 # Watch 方法
 
-WatchService 只有一个 Watch 方法。
+WatchService 只有一个 `Watch` 方法。
+
+```java
+// Watch 观察将要发生或者已经发生的事件。
+// 输入和输出都是流;输入流用于创建和取消观察，而输出流发送事件。
+// 一个观察 RPC 可以在一次性在多个 key 范围上观察，并为多个观察流化事件。
+// 整个事件历史可以从最后压缩修订版本开始观察。
+rpc Watch(stream WatchRequest) returns (stream WatchResponse) {}
+```
 
 ## 消息定义
 
-请求的消息体是 WatchRequest：
+请求的消息体是 `WatchRequest`：
 
 ```java
-
 message WatchRequest {
   // request_union 要么是创建新的观察者的请求，要么是取消一个已经存在的观察者的请求
   oneof request_union {
@@ -17,24 +24,25 @@ message WatchRequest {
 }
 ```
 
-创建新的观察者的请求 WatchCreateRequest：
+创建新的观察者的请求 `WatchCreateRequest`：
 
 ```java
 message WatchCreateRequest {
-  // key 是注册要观察的key
+  // key 是注册要观察的 key
   bytes key = 1;
 
   // range_end 是要观察的范围 [key, range_end) 的终点。
-  // 如果 range_end 没有设置，则只有参数key被观察。
-  // 如果 range_end 等同于 '\0'， 则大于等于参数key的所有key都将被观察
+  // 如果 range_end 没有设置，则只有参数 key 被观察。
+  // 如果 range_end 等同于 '\0'， 则大于等于参数 key 的所有 key 都将被观察
+  // 如果 range_end 比给定 key 大1， 则所有以给定 key 为前缀的 key 都将被观察
   bytes range_end = 2;
 
   // start_revision 是可选的开始(包括)观察的修订版本。不设置 start_revision 则表示 "现在".
   int64 start_revision = 3;
 
-  // 设置 progress_notify ， 这样如果最近没有事件，etcd 服务器将定期的发送不带任何事件的 WatchResponse 给新的观察者。
+  // 设置 progress_notify ，这样如果最近没有事件，etcd 服务器将定期的发送不带任何事件的 WatchResponse 给新的观察者。
   // 当客户端希望从最近已知的修订版本开始恢复断开的观察者时有用。
-  // etcd服务器将基于当前负载决定它发送通知的频率。
+  // etcd 服务器将基于当前负载决定它发送通知的频率。
   bool progress_notify = 4;
 
   enum FilterType {
@@ -54,7 +62,7 @@ message WatchCreateRequest {
 }
 ```
 
-取消已有观察者的 WatchCancelRequest ：
+取消已有观察者的 `WatchCancelRequest` ：
 
 ```java
 message WatchCancelRequest {
@@ -63,7 +71,7 @@ message WatchCancelRequest {
 }
 ```
 
-应答的消息体 WatchResponse：
+应答的消息体 `WatchResponse`：
 
 ```java
 message WatchResponse {
@@ -71,19 +79,22 @@ message WatchResponse {
   // watch_id 是和应答相关的观察者的ID
   int64 watch_id = 2;
 
-  // 如果应答是用于创建观察者请求的，则 created 设置为true。
+  // 如果应答是用于创建观察者请求的，则 created 设置为 true。
   // 客户端应该记录 watch_id 并期待从同样的流中为创建的观察者接收事件。
-  // 所有发送给被创建的观察者的事件将附带同样的watch_id
+  // 所有发送给被创建的观察者的事件将附带同样的 watch_id
   bool created = 3;
 
   // 如果应答是用于取消观察者请求的，则 canceled 设置为true。
   // 不会再有事件发送给被取消的观察者。
   bool canceled = 4;
 
-  // compact_revision 被设置为最小index，如果观察者试图观察被压缩的index。
+  // compact_revision 被设置为最小 index，如果观察者试图观察被压缩的 index。
   // 当在被压缩的修订版本上创建观察者或者观察者无法追上键值对存储的进展时发生。
   // 客户端应该视观察者为被取消，并不应该试图再次创建任何带有相同 start_revision 的观察者。
   int64 compact_revision  = 5;
+
+  // cancel_reason 指出取消观察者的理由.
+  string cancel_reason = 6;
 
   repeated mvccpb.Event events = 11;
 }
@@ -98,14 +109,15 @@ message Event {
     DELETE = 1;
   }
 
-  // type是事件的类型。
-  // 如果类型是 PUT，表明新的数据已经存储到key。
-  // 如果类型是 DELETE， 表明key已经被删除。
+  // type 是事件的类型。
+  // 如果类型是 PUT，表明新的数据已经存储到 key。
+  // 如果类型是 DELETE， 表明 key 已经被删除。
   EventType type = 1;
 
-  // kv 为事件持有KeyValue。
+  // kv 为事件持有 KeyValue。
   // PUT 事件包含当前的kv键值对
-  // DELETE/EXPIRE 事件包含被删除的key，它的修改修订版本设置为删除的修订版本
+  // kv.Version=1 的 PUT 事件表明 key 的创建
+  // DELETE/EXPIRE 事件包含被删除的 key，它的修改修订版本设置为删除的修订版本
   KeyValue kv = 2;
 
   // prev_kv 持有在事件发生前的键值对

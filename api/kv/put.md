@@ -1,8 +1,8 @@
 # Put 方法
 
-Put方法放置给定key到键值存储.
+Put 方法设置指定 key 到键值存储.
 
-Put方法增加键值存储的修订版本并在事件历史中生成一个事件.
+Put 方法增加键值存储的修订版本并在事件历史中生成一个事件.
 
 ```java
 rpc Put(PutRequest) returns (PutResponse) {}
@@ -10,26 +10,34 @@ rpc Put(PutRequest) returns (PutResponse) {}
 
 ## 消息体
 
-请求的消息体是 PutRequest：
+请求的消息体是 `PutRequest`：
 
 ```java
 message PutRequest {
-  // byte数组形式的key，用来放置到键值对存储
+  // byte 数组形式的 key，用来保存到键值对存储
   bytes key = 1;
 
-  // byte数组形式的value，在键值对存储中和key关联
+  // byte 数组形式的 value，在键值对存储中和 key 关联
   bytes value = 2;
 
-  // 在键值存储中和key关联的租约id。0代表没有租约。
+  // 在键值存储中和 key 关联的租约id。0代表没有租约。
   int64 lease = 3;
 
-  // 如果 prev_kv 被设置，etcd获取改变之前的上一个键值对。
-  // 上一个键值对将在put应答中被返回
+  // 如果 prev_kv 被设置，etcd 获取改变之前的上一个键值对。
+  // 上一个键值对将在 put 应答中被返回
   bool prev_kv = 4;
+
+  // 如果 ignore_value 被设置, etcd 使用它当前的 value 更新 key.
+  // 如果 key 不存在，返回错误.
+  bool ignore_value = 5;
+
+  // 如果 ignore_lease 被设置, etcd 使用它当前的租约更新 key.
+  // 如果 key 不存在，返回错误.
+  bool ignore_lease = 6;
 }
 ```
 
-应答的消息体是 PutResponse：
+应答的消息体是` PutResponse`：
 
 ```java
 message PutResponse {

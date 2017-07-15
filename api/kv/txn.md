@@ -2,9 +2,9 @@
 
 Txn 方法在单个事务中处理多个请求。
 
-一个 txn 请求增加键值存储的修订版本并为每个完成的请求生成带有相同修订版本的事件。
+txn 请求增加键值存储的修订版本并为每个完成的请求生成带有相同修订版本的事件。
 
-不容许在一个txn中多次修改同一个key。
+不容许在一个 txn 中多次修改同一个 key。
 
 ```java
 rpc Txn(TxnRequest) returns (TxnResponse) {}
@@ -16,15 +16,15 @@ rpc Txn(TxnRequest) returns (TxnResponse) {}
 
 > 来自 google paxosdb 论文:
 >
-> 我们的实现围绕强大的我们称为 MultiOp 的原生(primitive)。所有除了循环外的其他数据库操作被实现为对 MultiOp 的单一调用。MultiOp 被原子性的应用并由三个部分组成：
+> 我们的实现围绕强大的我们称为 `MultiOp` 的原生(primitive)。除了游历外的所有其他数据库操作被实现为对 MultiOp 的单一调用。MultiOp 被原子执行并由三个部分组成：
 >
-> 1. 被称为guard的测试列表。在guard中每个测试检查数据库中的单个项(entry)。它可能检查某个值的存在或者缺失，或者和给定的值比较。在guard中两个不同的测试可能应用于数据库中相同或者不同的项。guard中的所有测试被应用然后 MultiOp 返回结果。如果所有测试是true，MultiOp 执行 t 操作 (见下面的第二项), 否则它执行 f 操作 (见下面的第三项).
-> 2. 被称为 t 操作的数据库操作列表. 列表中的每个操作是插入，删除，或者查找操作，并应用到单个数据库项。列表中的两个不同操作可能应用到数据库中相同或者不同的项。如果 guard 评价为true 这些操作将被执行
+> 1. 被称为 `guard` 的测试列表。在 guard 中每个测试检查数据库中的单个项。它可能检查某个值的存在或者缺失，或者和给定的值比较。在 guard 中两个不同的测试可能应用于数据库中相同或者不同的项。guard 中的所有测试被应用然后 MultiOp 返回结果。如果所有测试是 true，MultiOp 执行 t 操作 (见下面的第二项), 否则它执行 f 操作 (见下面的第三项).
+> 2. 被称为 `t` 操作的数据库操作列表. 列表中的每个操作是插入，删除，或者查找操作，并应用到单个数据库项。列表中的两个不同操作可能应用到数据库中相同或者不同的项。如果 guard 评价为true 这些操作将被执行
 > 3. 被成为 f 操作的数据库操作列表. 类似 t 操作, 但是是在 guard 评价为 false 时执行。
 
 ## 消息体
 
-请求的消息体是 TxnRequest：
+请求的消息体是 `TxnRequest`：
 
 ```java
 message TxnRequest {
@@ -41,7 +41,7 @@ message TxnRequest {
 }
 ```
 
-应答的消息体是 TxnResponse：
+应答的消息体是 `TxnResponse`：
 
 ```java
 message TxnResponse {
@@ -55,8 +55,7 @@ message TxnResponse {
 }
 ```
 
-Compare 消息体：
-
+`Compare` 消息体：
 
 ```java
 message Compare {
@@ -64,6 +63,7 @@ message Compare {
     EQUAL = 0;
     GREATER = 1;
     LESS = 2;
+    NOT_EQUAL = 3;
   }
   enum CompareTarget {
     VERSION = 0;
@@ -72,32 +72,32 @@ message Compare {
     VALUE= 3;
   }
 
-  // result是这个比较的逻辑比较操作
+  // result 是这个比较的逻辑比较操作
   CompareResult result = 1;
 
-  // target是比较要检查的键值字段
+  // target 是比较要检查的键值字段
   CompareTarget target = 2;
 
-  // key是用于比较操作的主题key
+  // key 是用于比较操作的主题key
   bytes key = 3;
 
   oneof target_union {
-    // version是给定key的版本
+    // version 是给定 key 的版本
     int64 version = 4;
 
-    // create_revision 是给定key的创建修订版本
+    // create_revision 是给定 key 的创建修订版本
     int64 create_revision = 5;
 
-    // mod_revision 是给定key的最后修改修订版本
+    // mod_revision 是给定 key 的最后修改修订版本
     int64 mod_revision = 6;
 
-    // value 是给定key的值，以bytes的形式
+    // value 是给定 key 的值，以 bytes 的形式
     bytes value = 7;
   }
 }
 ```
 
-RequestOp 消息体：
+`RequestOp` 消息体：
 
 ```java
 message RequestOp {
@@ -111,7 +111,7 @@ message RequestOp {
 
 ```
 
-ResponseOp 消息体：
+`ResponseOp` 消息体：
 
 ```java
 message ResponseOp {

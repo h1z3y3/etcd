@@ -1,6 +1,6 @@
 # LeaseKeepAlive 方法
 
-LeaseKeepAlive 方法取消一个租约.
+LeaseKeepAlive 方法维持一个租约.
 
 ```java
 rpc LeaseKeepAlive(stream LeaseKeepAliveRequest) returns (stream LeaseKeepAliveResponse) {}
@@ -8,21 +8,21 @@ rpc LeaseKeepAlive(stream LeaseKeepAliveRequest) returns (stream LeaseKeepAliveR
 
 ## 消息体
 
-请求的消息体是 LeaseKeepAliveRequest：
+请求的消息体是 `LeaseKeepAliveRequest`：
 
 ```java
 message LeaseKeepAliveRequest {
-  // ID是要继续存活的租约的ID
+  // ID 是要继续存活的租约的 ID
   int64 ID = 1;
 }
 ```
 
-应答的消息体是 LeaseKeepAliveResponse：
+应答的消息体是 `LeaseKeepAliveResponse`：
 
 ```java
 message LeaseKeepAliveResponse {
   ResponseHeader header = 1;
-  // ID是从继续存活请求中得来的租约ID
+  // ID 是从继续存活请求中得来的租约 ID
   int64 ID = 2;
   // TTL是租约新的 time-to-live
   int64 TTL = 3;

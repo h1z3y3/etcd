@@ -1,6 +1,6 @@
-# LeaseGrant 方法
+# LeaseRevoke 方法
 
-LeaseGrant 方法取消一个租约.
+LeaseRevoke 方法取消一个租约.
 
 ```java
 rpc LeaseRevoke(LeaseRevokeRequest) returns (LeaseRevokeResponse) {}
@@ -8,7 +8,7 @@ rpc LeaseRevoke(LeaseRevokeRequest) returns (LeaseRevokeResponse) {}
 
 ## 消息体
 
-请求的消息体是 LeaseRevokeRequest：
+请求的消息体是 `LeaseRevokeRequest`：
 
 ```java
 message LeaseRevokeRequest {
@@ -18,7 +18,7 @@ message LeaseRevokeRequest {
 }
 ```
 
-应答的消息体是 LeaseRevokeResponse：
+应答的消息体是 `LeaseRevokeResponse`：
 
 ```java
 message LeaseRevokeResponse {

@@ -8,8 +8,6 @@
 
 主要内容在 message 的字段定义上，翻译时没有复制原文中从 .proto 文件生成的表格，而是直接在 .proto 文件的 message 定义上翻译，感觉更直观一些。
 
-> 注： 需要对 proto3 的基本语法有初步的了解，可以查阅 [proto3 中文文档](https://proto3.doczh.cn)。
-
 ## 内容
 
 已经整理并翻译的内容：
@@ -17,4 +15,10 @@
 * [KV service](kv/kv_service.md)
 * [Watch service](watch/watch_service.md)
 * [Lease service](lease/lease_service.md)
+
+尚未完成的内容:
+
+- service Cluster
+- service Maintenance
+- service Auth
 

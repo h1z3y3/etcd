@@ -2,7 +2,7 @@
 
 Watch service提供观察键值对变化的支持。
 
-在 rpc.proto 文件中 Watch service 定义如下：
+在 rpc.proto 中 Watch service 定义如下：
 
 ```java
 service Watch {
@@ -14,7 +14,6 @@ service Watch {
 }
 ```
 
-只有一个Watch方法。
 
 
 
