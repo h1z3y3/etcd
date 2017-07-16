@@ -44,4 +44,8 @@
 		* [LeaseKeepAlive方法](api/lease/leaseKeepAlive.md)
 		* [LeaseTimeToLive方法](api/lease/leaseTimeToLive.md)
 * [并发 API 参考文档](api-concurrency/index.md)
+	* [Lock service](api-concurrency/lock/index.md)
+		* [Lock方法](api-concurrency/lock/lock.md)
+		* [Unlock方法](api-concurrency/lock/unlock.md)
+	* [Election service](api-concurrency/election/index.md)
 * [全文标签总览](tags.md)
