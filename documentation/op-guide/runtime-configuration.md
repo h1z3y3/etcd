@@ -1,7 +1,5 @@
 # 运行时重配置
 
-> 注：内容翻译自 [Runtime Reconfiguration](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/runtime-configuration.md)
-
 etcd 自带对渐进的运行时重配置的支持，这容许用户在运行时更新集群成员。
 
 重配置请求仅能在集群成员的大多数正常工作时可以处理。**强烈推荐** 在产品中集群大小总是大于2.从一个两成员集群中移除一个成员是不安全的。在移除过程中如果有失败，集群可能无法前进而需要[从重大失败中重启][majority failure].
