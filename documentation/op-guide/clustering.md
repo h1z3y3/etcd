@@ -1,18 +1,16 @@
 # 集群指南
 
-> 注：内容翻译自 [Clustering Guide](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/clustering.md)
-
 ## 概述
 
 启动 etcd 集群要求每个成员知道集群中的其他成员。在一些场景中，集群成员的 IP 地址可能无法提前知道。在这种情况下，etcd 集群可以在发现服务的帮助下启动。
 
-一旦 etcd 集群启动并运行，通过 [运行时重配置](runtime-configuration.md) 来添加或者移除成员。为了更好的理解运行时重配置背后的设计，建议阅读 [运行时重配置的设计](runtime-reconf-design.md)。
+一旦 etcd 集群启动并运行，可以通过 [运行时重配置](runtime-configuration.md) 来添加或者移除成员。为了更好的理解运行时重配置背后的设计，建议阅读 [运行时重配置的设计](runtime-reconf-design.md)。
 
 这份指南将覆盖下列用于启动 etcd 集群的机制：
 
-* [Static / 静态](#static)
-* [etcd Discovery / etcd 发现](#etcd-discovery)
-* [DNS Discovery / DNS 发现](#dns-discovery)
+* [静态](#静态)
+* [etcd 发现](#etcd发现)
+* [DNS 发现](#dns发现)
 
 启动机制的每一种都将用于启动三台机器的 etcd 集群，详情如下：
 
@@ -80,7 +78,7 @@ etcd 支持通过 TLS 协议的加密通讯。TLS 通道可以用于加密伙伴
 
 #### 自签名证书
 
-使用自签名证书证书(self-signed certificates)的集群同事加密请求并认证它的连接。要启动使用自签名证书的集群，每个集群成员应该有一个唯一的通过共享的集群CA证书来签名的键对(key pair) (`member.crt`, `member.key`)，用于伙伴连接和客户端连接。证书可以通过仿照 etcd [搭建TLS](https://github.com/coreos/etcd/blob/master/hack/tls-setup) 的例子来生成。
+使用自签名证书证书(self-signed certificates)的集群同时加密请求并认证它的连接。要启动使用自签名证书的集群，每个集群成员应该有一个唯一的通过共享的集群CA证书来签名的键对(key pair) (`member.crt`, `member.key`)，用于伙伴连接和客户端连接。证书可以通过仿照 etcd [搭建TLS](https://github.com/coreos/etcd/blob/master/hack/tls-setup) 的例子来生成。
 
 在每台机器上，etcd可以使用这些标记来启动：
 
@@ -213,33 +211,32 @@ exit 1
 
 ## 发现
 
-在一些案例中，集群伙伴的 IP 可能无法提前知道。当使用云提供商或者网络使用 DHCP 时比较常见。在这些情况下，相比指定静态配置，使用使用已经存在的 etcd 集群来启动一个新的。我们称这个过程为"发现"。
+在一些案例中，集群伙伴的 IP 可能无法提前知道。当使用云提供商或者网络使用 DHCP 时比较常见。在这些情况下，相比指定静态配置，可以使用已经存在的 etcd 集群来启动一个新的。我们称这个过程为"发现"。
 
 有两个方法可以用来做发现：
 
 * etcd 发现服务
 * DNS SRV 记录
 
-### etcd 发现
+### etcd发现
 
 为了更好的理解发现服务协议的设计，建议阅读发现服务项目 [文档](https://github.com/coreos/etcd/blob/master/Documentation/dev-internal/discovery_protocol.md)。
 
-#### 发现 URL 的存活时间
+#### discovery URL 的存活时间
 
-发现 URL 标识唯一的 etcd 集群。对于新的集群，总是创建发现 URL 而不是重用发现 URL。
+discovery URL 标识唯一的 etcd 集群。对于新的集群，总是创建 discovery URL 而不是重用 discovery URL。
 
-此外，发现URL应该仅仅用于集群的初始化启动。在集群已经运行之后修改集群成员，阅读 [运行时重配置](runtime-configuration.md) 指南。
+此外，discovery URL 应该仅仅用于集群的初始化启动。在集群已经运行之后修改集群成员，阅读 [运行时重配置](runtime-configuration.md) 指南。
 
 #### 定制 etcd 发现服务
 
 发现使用已有集群来启动自身。如果使用私有的 etcd 集群，可以创建像这样的 URL：
 
-
 ```bash
 $ curl -X PUT https://myetcd.local/v2/keys/discovery/6c007a14875d53d9bf0ef5a6fc0257c817f0fb83/_config/size -d value=3
 ```
 
-通过设置 URL 的 size，创建了带有期待集群大小为3的发现 URL。
+通过设置 URL 的 size，创建了带有期待集群大小为3的 discovery URL。
 
 用于这个场景的 URL 将是  `https://myetcd.local/v2/keys/discovery/6c007a14875d53d9bf0ef5a6fc0257c817f0fb83` 而 etcd 成员将使用 `https://myetcd.local/v2/keys/discovery/6c007a14875d53d9bf0ef5a6fc0257c817f0fb83` 目录来注册，当他们启动时。
 
@@ -316,7 +313,7 @@ $ etcd --name infra2 --initial-advertise-peer-urls http://10.0.1.12:2380 \
   --discovery https://discovery.etcd.io/3e86b59982e49066c5d813af1c2e2579cbf573de
 ```
 
-这将导致每个成员使用定制的etcd发现服务注册自身并开始集群，一旦所有的机器都已经注册。
+这将导致每个成员使用定制的 etcd 发现服务注册自身并开始集群，一旦所有的机器都已经注册。
 
 使用环境变量 `ETCD_DISCOVERY_PROXY` 来让 etcd 使用 HTTP 代理来连接到发现服务。
 
@@ -347,7 +344,7 @@ $ etcd --name infra0 --initial-advertise-peer-urls http://10.0.1.10:2380 \
 etcdserver: discovery token ignored since a cluster has already been initialized. Valid log found at /var/lib/etcd
 ```
 
-### DNS 发现
+### DNS发现
 
 DNS [SRV records](http://www.ietf.org/rfc/rfc2052.txt) 可以作为发现机制使用。
 
@@ -469,7 +466,7 @@ $ etcd --name infra2 \
 
 ### 网关
 
-etcd 网关是一个简单的 TCP 代码，转发网络数据到 etcd 集群。请阅读 [网关指南]()来获取更多信息。
+etcd 网关是一个简单的 TCP 代理，转发网络数据到 etcd 集群。请阅读 [网关指南](gateway.md)来获取更多信息。
 
 ### 代理
 
