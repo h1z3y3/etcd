@@ -10,5 +10,6 @@
 
 已经整理并翻译的内容：
 
-TBD
+* [Lock service](lock/index.md)
+* [Election service](election/index.md)
 

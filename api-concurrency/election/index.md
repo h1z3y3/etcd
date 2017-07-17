@@ -21,7 +21,7 @@ service Election {
   // Observe　以流的方式返回选举公告，和被选举的领导者发布的顺序一致。
   rpc Observe(LeaderRequest) returns (stream LeaderResponse) {}
 
-  // Resign　释放选举领导地位，以便其他参选人可以在选举中获得领导地位。
+  // Resign　放弃选举领导地位，以便其他参选人可以在选举中获得领导地位。
   rpc Resign(ResignRequest) returns (ResignResponse) {}
 }
 ```
