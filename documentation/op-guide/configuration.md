@@ -1,8 +1,6 @@
 # 配置标记
 
-> 注： 内容翻译自 [Configuration flags](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/configuration.md)
-
-etcd可以通过命令行标记和环境变量来配置。命令行上设置的选项优先于环境变量。
+etcd 可以通过命令行标记和环境变量来配置。命令行上设置的选项优先于环境变量。
 
 对于标记 `--my-flag` 环境变量的格式是 `ETCD_MY_FLAG`。 适用于所有标记。
 
@@ -362,7 +360,11 @@ peer server TLS 信任证书文件路径.
 
 ### --enable-pprof
 
-通过HTTP服务器开启运行时分析数据。地址是 client URL + "/debug/pprof/"
+通过 HTTP 服务器开启运行时分析数据。地址是 client URL + "/debug/pprof/"
 
 + 默认: false
 
+### --metrics
+
++ 为导出的度量，设置详情的等级，指定 'extensive' 来包含柱状图
++ 默认: basic

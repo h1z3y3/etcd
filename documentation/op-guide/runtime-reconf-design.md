@@ -1,8 +1,6 @@
 # 运行时重配置的设计
 
-> 注：内容翻译自 [Design of runtime reconfiguration](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/runtime-reconf-design.md)
-
-在分布式系统中，运行时重配置是最困难和最有错误倾向的特性，尤其是基于一致性的系统如 etcd 中。
+在分布式系统中，运行时重配置是最困难和最有错误倾向的特性，尤其是基于一致性的系统如 etcd。
 
 继续阅读来学习关于 etcd 的运行时重配置命令的设计和我们如何解决这些问题。
 

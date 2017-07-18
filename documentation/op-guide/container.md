@@ -1,8 +1,6 @@
 # 在容器内运行etcd集群
 
-> 注： 内容翻译自 [Run etcd clusters inside containers](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/container.md)
-
-下列指南展示如何使用 [static bootstrap process](clustering.md#static) 来用rkt和docker运行 etcd 。
+下列指南展示如何使用 [static bootstrap process](clustering.md#静态) 来用　rkt　和　docker　运行 etcd 。
 
 ## rkt
 

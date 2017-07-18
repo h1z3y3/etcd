@@ -1,7 +1,5 @@
 # etcd 网关
 
-> 注： 内容翻译自 [etcd gateway](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/gateway.md)
-
 ## etcd 网关是什么
 
 etcd 网关是一个简单的 TCP 代理，转发网络数据到 etcd 集群。网关是无状态和透明的;它既不检查客户端请求也不干涉集群应答。
