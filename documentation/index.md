@@ -78,11 +78,11 @@ etcd 是一个分布式键值对存储，设计用来可靠而快速的保存关
 
 要学习更多 etcd 背后的概念和内部细节，请阅读下面的内容:
 
-- [为什么选择etcd(TBD)](leaning/why.md)
-- [理解数据模型](leaning/data_model.md)
-- [理解API](leaning/api.md)
-- [术语](leaning/glossary.md)
-- [API保证](leaning/api_guarantees.md)
+- [为什么选择etcd(TBD)](learning/why.md)
+- [理解数据模型](learning/data_model.md)
+- [理解API](learning/api.md)
+- [术语](learning/glossary.md)
+- [API保证](learning/api_guarantees.md)
 - Internals
-	- [认证子系统(TBD)](leaning//auth_design.md)
+	- [认证子系统(TBD)](learning//auth_design.md)
 
