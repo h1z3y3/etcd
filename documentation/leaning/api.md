@@ -1,7 +1,5 @@
 # etcd3 API
 
-> 注: 内容翻译自 [etcd3 API](https://github.com/coreos/etcd/blob/master/Documentation/learning/api.md)
-
 注意: 这个文档还没有完成!
 
 > 注：原文如此，的确是还没有完成 :)
