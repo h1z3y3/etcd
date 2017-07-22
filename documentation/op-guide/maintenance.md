@@ -1,7 +1,5 @@
 # 维护
 
-> 注： 内容翻译自 [Maintenance](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/maintenance.md)
-
 ## 概述
 
 etcd 集群需要定期维护来保持可靠。基于 etcd 应用的需要，这个维护通常可以自动执行，不需要停机或者显著的降低性能。

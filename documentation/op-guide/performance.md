@@ -1,8 +1,5 @@
 # 性能
 
-> 注：内容翻译自 [Performance](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/performance.md)
-
-
 ## 理解性能
 
 etcd 提供稳定的，持续的高性能。两个定义性能的因素：延迟(latency)和吞吐量(throughput)。延迟是完成操作的时间。吞吐量是在某个时间期间之内完成操作的总数量。当 etcd 接收并发客户端请求时，通常平均延迟随着总体吞吐量增加而增加。在通常的云环境，比如 Google Compute Engine (GCE) 标准的 `n-4` 或者 AWS 上相当的机器类型，一个三成员 etcd 集群在轻负载下可以在低于1毫秒内完成一个请求，并在重负载下可以每秒完成超过 30000 个请求。

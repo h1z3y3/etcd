@@ -1,7 +1,5 @@
 # 灾难恢复
 
-> 注： 内容翻译自 [Disaster recovery](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/recovery.md)
-
 etcd 被设计为能承受机器失败。etcd 集群自动从临时失败(例如，机器重启)中恢复，而且对于一个有 N 个成员的集群能容许 *(N-1)/2* 的持续失败。当一个成员持续失败时，不管是因为硬件失败或者磁盘损坏，它丢失到集群的访问。如果集群持续丢失超过 *(N-1)/2* 的成员，则它只能悲惨的失败，无可救药的失去法定人数(quorum)。一旦法定人数丢失，集群无法达到一致而因此无法继续接收更新。
 
 为了从灾难失败中恢复，etcd v3 提供快照和修复工具来重建集群而不丢失 v3 键数据。要恢复 v2 的键，参考[v2 管理指南](https://github.com/coreos/etcd/blob/master/Documentation/v2/admin_guide.md#disaster-recovery).

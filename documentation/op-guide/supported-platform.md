@@ -1,7 +1,5 @@
 # 支持平台
 
-> 注： 内容翻译自 [Supported platforms](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/supported-platform.md)
-
 ## 当前支持
 
 下面的表单列出了常见架构和系统的 etcd 支持状态：

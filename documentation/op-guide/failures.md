@@ -1,7 +1,5 @@
 # 理解失败
 
-> 注： 内容翻译自 [Understand failures](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/failures.md)
-
 在机器的大量部署中失败是很常见的。当硬件或者软件故障时单台机器失败。当电力故障或者网络问题时多台机器一起失败。多种失败也可能一起发生;几乎不可能列举出所有可能的失败场景。
 
 在这节中，我们分类失败的种类并讨论 etcd 是如何设计来容忍这些失败的。大部分用户，不是所有，可以映射一个特别的失败到一种失败。为了应对罕见或者 [不可恢复的失败][unrecoverable], 总是 [备份][backup] etcd 集群。
