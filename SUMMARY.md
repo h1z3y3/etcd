@@ -17,7 +17,7 @@
 		* [搭建 etcd 网关](documentation/op-guide/gateway.md)
 		* [在容器内运行 etcd 集群](documentation/op-guide/container.md)
 		* [配置](documentation/op-guide/configuration.md)
-		* [加密(TODO)](documentation/op-guide/security.md)
+		* [安全模式](documentation/op-guide/security.md)
 		* [维护](documentation/op-guide/maintenance.md)
 		* [理解失败](documentation/op-guide/failures.md)
 		* [灾难恢复](documentation/op-guide/recovery.md)
