@@ -26,30 +26,63 @@ etcd 是一个分布式键值对存储，设计用来可靠而快速的保存关
 
 管理员，需要为支持的开发人员创建可靠而可扩展的键值存储，应该从 [多机集群](op-guide/clustering.md) 开始.
 
-- [搭建etcd集群](op-guide/clustering.md)
-- [搭建etcd网关](op-guide/gateway.md)
-- [在容器内运行etcd集群](op-guide/container.md)
+### 搭建 etcd
+
 - [配置](op-guide/configuration.md)
-- [加密(TODO)](op-guide/security.md)
-- Monitoring
-- [维护](op-guide/maintenance.md)
-- [理解失败](op-guide/failures.md)
-- [灾难恢复](op-guide/recovery.md)
-- [性能](op-guide/performance.md)
-- [版本](op-guide/versioning.md)
+- [多成员集群](op-guide/clustering.md)
+- [在容器内运行etcd集群](op-guide/container.md)
+- [gRPC代理(TBD)](op-guide/grpc_proxy.md)
+- [L4 网关](op-guide/gateway.md)
+
+### 系统配置
+
 - [支持平台](op-guide/supported-platform.md)
+- [硬件推荐(TBD)](op-guide/hardware.md)
+- [性能评测](op-guide/performance.md)
+- [调优(TBD)](../tuning.md)
+
+### 平台指南
+
+> 注：暂时未翻译这部分内容
+
+- [Amazon Web Services](https://github.com/coreos/etcd/blob/master/Documentation/platforms/aws.md)
+- [Container Linux, systemd](https://github.com/coreos/etcd/blob/master/Documentation/platforms/container-linux-systemd.md)
+- [FreeBSD](https://github.com/coreos/etcd/blob/master/Documentation/platforms/freebsd.md)
+- [Docker container](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/container.md#docker)
+- [rkt container](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/container.md#rkt)
+
+### 安全
+
+－ [TLS](op-guide/security.md)
+－ [基于角色的访问控制(TBD)](op-guide/authentication.md)
+
+### 维护和排错
+
+- [常见问题(TBD)](../faq.md)
+- [监控(TBD)](op-guide/monitoring.md)
+- [维护](op-guide/maintenance.md)
+- [故障模式](op-guide/failures.md)
+- [灾难恢复](op-guide/recovery.md)
+
+### 升级和兼容
+
+> 注：暂时未翻译这部分内容
+
+- [版本](op-guide/versioning.md)
+- [Migrate applications from using API v2 to API v3](https://github.com/coreos/etcd/blob/master/Documentation/op-guide/v2-migration.md)
+- [Upgrading a v2.3 cluster to v3.0](https://github.com/coreos/etcd/blob/master/Documentation/upgrades/upgrade_3_0.md)
+- [Upgrading a v3.0 cluster to v3.1](https://github.com/coreos/etcd/blob/master/Documentation/upgrades/upgrade_3_1.md)
+- [Upgrading a v3.1 cluster to v3.2](https://github.com/coreos/etcd/blob/master/Documentation/upgrades/upgrade_3_2.md)
 
 ## 学习
 
 要学习更多 etcd 背后的概念和内部细节，请阅读下面的内容:
 
-- Why etcd (TODO)
+- [为什么选择etcd(TBD)](leaning/why.md)
 - [理解数据模型](leaning/data_model.md)
 - [理解API](leaning/api.md)
 - [术语](leaning/glossary.md)
 - [API保证](leaning/api_guarantees.md)
-- Internals (TODO)
+- Internals
+	- [认证子系统(TBD)](leaning//auth_design.md)
 
-## FAQ
-
-回答关于 etcd 的[常见问题](faq.md)
