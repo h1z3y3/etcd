@@ -2,7 +2,7 @@
 
 ## 内容
 
-- Why etcd (TODO)
+- [为什么是etcd?](why.md)
 - [理解数据模型](data_model.md)
 - [理解API](api.md)
 - [术语](glossary.md)

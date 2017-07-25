@@ -32,7 +32,7 @@
 		* [灾难恢复](documentation/op-guide/recovery.md)
 		* [版本](documentation/op-guide/versioning.md)
 	* [学习](documentation/learning/index.md)
-		* [为什么选择etcd(TBD)](documentation/learning/why.md)
+		* [为什么是etcd](documentation/learning/why.md)
         * [理解数据模型](documentation/learning/data_model.md)
         * [理解API](documentation/learning/api.md)
         * [术语](documentation/learning/glossary.md)
