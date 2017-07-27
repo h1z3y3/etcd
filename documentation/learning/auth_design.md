@@ -1,27 +1,27 @@
-﻿# etcd v3 authentication design
+# etcd v3 认证设计
 
-## Why not reuse the v2 auth system?
+## 为什么不重用v2的认证系统?
 
-The v3 protocol uses gRPC as its transport instead of a RESTful interface like v2. This new protocol provides an opportunity to iterate on and improve the v2 design. For example, v3 auth has connection based authentication, rather than v2's slower per-request authentication. Additionally, v2 auth's semantics tend to be unwieldy in practice with respect to reasoning about consistency, which will be described in the next sections. For v3, there is a well-defined description and implementation of the authentication mechanism which fixes the deficiencies in the v2 auth system.
+v3 协议使用 gRPC 传输而不是像 v2 这样的 RESTful 接口。这个新协议提供了迭代和改进v2设计的机会。例如，v3 auth具有基于连接的身份验证，而不是v2的每请求的速度较慢的认证。 此外，在实践中，v2 auth的语义在关于一致性的推理方面有些笨重，将在下一节中描述。对于v3，认证机制有明确定义的描述和实现，可以修复v2认证系统的缺陷。
 
-### Functionality requirements
+### 功能需求
 
-* Per connection authentication, not per request
-   * User ID + password based authentication implemented for the gRPC API
-   * Authentication must be refreshed after auth policy changes
-* Its functionality should be as simple and useful as v2
-   * v3 provides a flat key space, unlike the directory structure of v2. Permission checking will be provided as interval matching.
-* It should have stronger consistency guarantees than v2 auth
+* 每连接认证，而不是每请求
+   * 基于用户ID + 密码的认证，实现为 gRPC API
+   * 在认证政策修改之后，认证必须刷新
+* 功能应该和v2一样简单
+   * v3 提供扁平键空间，和v2的目录结构不同。提供权限检查,如间隔匹配(as interval matching)
+* 应该提供比v2认证更强的一致性保证
 
-### Main required changes
+### 主要需要更改
 
-* A client must create a dedicated connection only for authentication before sending authenticated requests
-* Add permission information (user ID and authorized revision) to the Raft commands (`etcdserverpb.InternalRaftRequest`)
-* Every request is permission checked in the state machine layer, rather than API layer
+* 客户端必须在发送被验证的请求之前创建仅用于认证的专用连接
+* 添加权限信息(用户 ID 和 合法 revision) 到 Raft 命令 (`etcdserverpb.InternalRaftRequest`)
+* 在状态机层做每个请求的权限检查，而不是在 API 层
 
-### Permission metadata consistency
+### 权限元数据一致性
 
-The metadata for auth should also be stored and managed in the storage controlled by etcd's Raft protocol like other data stored in etcd. It is required for not sacrificing availability and consistency of the entire etcd cluster. If reading or writing the metadata (e.g. permission information) needs an agreement of every node (more than quorum), single node failure can stop the entire cluster. Requiring all nodes to agree at once means that checking ordinary read/write requests cannot be completed if any cluster member is down, even if the cluster has an available quorum. This unanimous scheme ultimately degrades cluster availability; quorum based consensus from raft should suffice since agreement follows from consistent ordering.
+认证的元数据也应该在存储中存储和管理，该存储被etcd的Raft协议控制，和其他在etcd中的数据一样。要求不牺牲整个etcd集群的可用性和一致性。如果读取或写入元数据（例如权限信息）需要每个节点（超过法定人数）的同意，则单节点故障会让整个集群停止。要求所有节点立即同意意味着，如果任意集群成员宕机，即使群集具有可用的法定人数，检查普通的读/写请求也无法完成。 这种全场一致方案最终会降低集群的可用性; 从raft而来的基于法定人数的共识就足够了，因为合约遵循一致的顺序。
 
 The authentication mechanism in the etcd v2 protocol has a tricky part because the metadata consistency should work as in the above, but does not: each permission check is processed by the etcd member that receives the client request (etcdserver/api/v2http/client.go), including follower members. Therefore, it's possible the check may be based on stale metadata.
 
