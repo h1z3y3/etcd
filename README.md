@@ -6,8 +6,10 @@ Etcd 中文文档.
 
 * [官方文档(翻译)](documentation/index.md)
 * [API参考文档(翻译)](api/index.md)
+* [并发API参考文档(翻译)](api-concurrency/index.md)
 
 笔记发布于 gitbook，请点击下面的链接阅读:
 
-https://etcd.doczh.cn
+- ~~https://etcd.doczh.cn~~ 网站备案中，暂停域名解析
+- https://doczhcn.gitbooks.io/etcd/content/
 
